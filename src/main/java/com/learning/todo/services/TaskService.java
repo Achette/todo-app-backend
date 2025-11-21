@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,9 +40,9 @@ public class TaskService {
     }
 
     @Transactional(readOnly = true)
-    public Page<TaskDTO> findAll(Pageable pageable) {
-        Page<Task> result = repository.findAll(pageable);
-        return result.map(task -> new TaskDTO((task)));
+    public List<TaskDTO> findAll() {
+        List<Task> result = repository.findAll();
+        return result.stream().map(task -> new TaskDTO((task))).toList();
     }
 
     // Muito importante o relacionamento entre as entidades, no caso abaixo relacionamento um para muitos
