@@ -70,5 +70,11 @@ INSERT INTO tb_task (title, description, completed, created_at, priority, user_i
 INSERT INTO tb_task (title, description, completed, created_at, priority, user_id) VALUES ('Configurar Docker', 'Criar Dockerfile e docker-compose para ambiente dev', false, '2024-11-03', 1, 5);
 INSERT INTO tb_task (title, description, completed, created_at, priority, user_id) VALUES ('Otimizar consultas SQL', 'Adicionar índices e revisar queries lentas', true, '2024-11-07', 0, 5);
 INSERT INTO tb_task (title, description, completed, created_at, priority, user_id) VALUES ('Criar endpoints de relatório', 'Gerar relatório de tarefas concluídas no mês', false, '2024-11-15', 2, 5);
+INSERT INTO tb_task (title, description, completed, created_at, priority, user_id) VALUES ('Refatorar componentes antigos', 'Atualizar componentes React para usar hooks modernos', true, '2024-10-03', 1, 5);
+INSERT INTO tb_task (title, description, completed, created_at, priority, user_id) VALUES ('Configurar integração contínua', 'Criar pipeline no GitHub Actions para testes e deploy', false, '2024-12-01', 0, 5);
+INSERT INTO tb_task (title, description, completed, created_at, priority, user_id) VALUES ('Atualizar documentação técnica', 'Revisar README e adicionar instruções de setup', true, '2024-09-22', 2, 5);
+INSERT INTO tb_task (title, description, completed, created_at, priority, user_id) VALUES ('Implementar autenticação JWT', 'Adicionar fluxo de login e refresh token', false, '2024-11-08', 0, 5);
+INSERT INTO tb_task (title, description, completed, created_at, priority, user_id) VALUES ('Criar testes de integração', 'Escrever testes para rotas principais da API', false, '2024-08-19', 1, 5);
+
 
 
