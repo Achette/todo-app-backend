@@ -54,6 +54,7 @@ public class TaskService {
         entity.setDescription(dto.getDescription());
         entity.setCompleted(dto.getCompleted());
         entity.setCreatedAt(dto.getCreatedAt());
+        entity.setDueDate(dto.getDueDate());
         entity.setPriority(dto.getPriority());
 
         User user = new User();

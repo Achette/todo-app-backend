@@ -22,6 +22,9 @@ public class Task {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant createdAt;
 
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant dueDate;
+
     private TaskEnum priority;
 
     @ManyToOne
@@ -32,12 +35,13 @@ public class Task {
     public Task() {
     }
 
-    public Task(Long id, String title, String description, Boolean completed, Instant createdAt, TaskEnum priority, User user) {
+    public Task(Long id, String title, String description, Boolean completed, Instant createdAt, Instant dueDate, TaskEnum priority, User user) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.completed = completed;
         this.createdAt = createdAt;
+        this.dueDate = dueDate;
         this.priority = priority;
         this.user = user;
     }
@@ -80,6 +84,14 @@ public class Task {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Instant getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Instant dueDate) {
+        this.dueDate = dueDate;
     }
 
     public TaskEnum getPriority() {

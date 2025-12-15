@@ -24,6 +24,8 @@ public class TaskDTO {
 
     private Instant createdAt;
 
+    private Instant dueDate;
+
     private TaskEnum priority;
 
     @NotNull
@@ -38,16 +40,18 @@ public class TaskDTO {
         description = entity.getDescription();
         completed = entity.getCompleted();
         createdAt = entity.getCreatedAt();
+        dueDate = entity.getDueDate();
         priority = entity.getPriority();
         userId = entity.getUser().getId();
     }
 
-    public TaskDTO(Long id, String title, String description, Boolean completed, Instant createdAt, TaskEnum priority, Long userId) {
+    public TaskDTO(Long id, String title, String description, Boolean completed, Instant createdAt, Instant dueDate, TaskEnum priority, Long userId) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.completed = completed;
         this.createdAt = createdAt;
+        this.dueDate = dueDate;
         this.priority = priority;
         this.userId = userId;
     }
@@ -71,6 +75,8 @@ public class TaskDTO {
     public Instant getCreatedAt() {
         return createdAt;
     }
+
+    public Instant getDueDate() { return dueDate; }
 
     public TaskEnum getPriority() {
         return priority;
