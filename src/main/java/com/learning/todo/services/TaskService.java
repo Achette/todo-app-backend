@@ -113,6 +113,12 @@ public class TaskService {
         if (dto.getCompleted() != null) {
             entity.setCompleted(dto.getCompleted());
         }
+        if (dto.getPriority() != null) {
+            entity.setPriority(dto.getPriority());
+        }
+        if (dto.getDueDate() != null) {
+            entity.setDueDate(dto.getDueDate());
+        }
 
     }
 }
