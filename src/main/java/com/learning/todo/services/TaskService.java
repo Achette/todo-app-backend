@@ -107,18 +107,25 @@ public class TaskService {
         if (dto.getTitle() != null) {
             entity.setTitle(dto.getTitle());
         }
+
         if (dto.getDescription() != null) {
             entity.setDescription(dto.getDescription());
         }
+
         if (dto.getCompleted() != null) {
             entity.setCompleted(dto.getCompleted());
         }
+
         if (dto.getPriority() != null) {
             entity.setPriority(dto.getPriority());
         }
+
         if (dto.getDueDate() != null) {
             entity.setDueDate(dto.getDueDate());
         }
 
+        if (dto.getUpdatedAt() != null) {
+            entity.setUpdatedAt(dto.getUpdatedAt());
+        }
     }
 }

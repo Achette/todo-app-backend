@@ -2,6 +2,7 @@ package com.learning.todo.entities;
 
 import com.learning.todo.enums.TaskEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.Instant;
 
@@ -19,11 +20,15 @@ public class Task {
 
     private Boolean completed;
 
+    @NotNull
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant createdAt;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant dueDate;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant updatedAt;
 
     private TaskEnum priority;
 
@@ -35,13 +40,14 @@ public class Task {
     public Task() {
     }
 
-    public Task(Long id, String title, String description, Boolean completed, Instant createdAt, Instant dueDate, TaskEnum priority, User user) {
+    public Task(Long id, String title, String description, Boolean completed, Instant createdAt, Instant dueDate, Instant updatedAt, TaskEnum priority, User user) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.completed = completed;
         this.createdAt = createdAt;
         this.dueDate = dueDate;
+        this.updatedAt = updatedAt;
         this.priority = priority;
         this.user = user;
     }
@@ -92,6 +98,14 @@ public class Task {
 
     public void setDueDate(Instant dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public TaskEnum getPriority() {
