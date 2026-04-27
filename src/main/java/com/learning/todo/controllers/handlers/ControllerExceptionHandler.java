@@ -8,6 +8,7 @@ import com.learning.todo.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -40,6 +41,18 @@ public class ControllerExceptionHandler {
             err.addError(f.getField(), f.getDefaultMessage());
         }
 
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<CustomError> handleAccessDenied(AccessDeniedException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.FORBIDDEN; // 403
+        CustomError err = new CustomError(
+                Instant.now(),
+                status.value(),
+                "Acesso Negado: Você não tem permissão para acessar esta rota.",
+                request.getRequestURI()
+        );
         return ResponseEntity.status(status).body(err);
     }
 }

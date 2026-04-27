@@ -1,18 +1,20 @@
 package com.learning.todo.entities;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_user")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private String username;
 
     private String password;
@@ -22,6 +24,15 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Task> tasks = new ArrayList<>();
+
+    // Roles: ManyToMany pois um usuário pode ter vários papéis
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "tb_user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
@@ -34,6 +45,25 @@ public class User {
         this.tasks = tasks;
     }
 
+    // ─── Métodos obrigatórios de UserDetails ───────────────
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles; // Role já implementa GrantedAuthority
+    }
+
+    // Esses 4 métodos controlam se a conta está ativa.
+    // Por enquanto retornem true (conta sempre ativa).
+    @Override public boolean isAccountNonExpired() { return true; }
+    @Override public boolean isAccountNonLocked() { return true; }
+    @Override public boolean isCredentialsNonExpired() { return true; }
+    @Override public boolean isEnabled() { return true; }
+
+    // ─── Método auxiliar (igual ao naconsulta) ──────────────
+    public boolean hasRole(String roleName) {
+        return roles.stream().anyMatch(r -> r.getAuthority().equals(roleName));
+    }
+
     public Long getId() {
         return id;
     }
@@ -42,6 +72,7 @@ public class User {
         this.id = id;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }
@@ -50,6 +81,7 @@ public class User {
         this.username = username;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
