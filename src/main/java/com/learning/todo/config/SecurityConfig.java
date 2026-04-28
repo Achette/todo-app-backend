@@ -15,6 +15,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -43,20 +48,15 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
 
                 // Define as regras de autorização por rota
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()    // login e registro são públicos
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll()    // login e registro são públicos
                         .requestMatchers("/h2-console/**").permitAll() // console H2 para testes
                         .anyRequest().authenticated()               // tudo mais exige login
                 )
 
-                .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint(authEntryPoint)
-                        .accessDeniedHandler(accessDeniedHandler))
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(authEntryPoint).accessDeniedHandler(accessDeniedHandler))
 
                 // API REST é STATELESS: não usa sessão HTTP, cada requisição é independente
-                .sessionManagement(sess ->
-                        sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 // Registra o provider que sabe como autenticar (via banco de dados)
                 .authenticationProvider(authenticationProvider())
@@ -70,6 +70,19 @@ public class SecurityConfig {
         return http.build();
     }
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:5173"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
     // ─── 2. Provider: conecta UserDetailsService + PasswordEncoder
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -81,8 +94,7 @@ public class SecurityConfig {
 
     // ─── 3. AuthenticationManager (igual ao naconsulta) ────────
     @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 }

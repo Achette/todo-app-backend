@@ -9,11 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
@@ -42,8 +45,11 @@ public class AuthController {
         // 3. Gera o token JWT
         String token = jwtUtil.generateToken(userDetails);
 
-        // 4. Retorna o token para o cliente --> Devolvemos um RESPONSE DTO (O token vai para o campo 'token')
-        return ResponseEntity.ok(new LoginResponseDTO(token, userDetails.getUsername()));
+        // 4. Extrai as authorities e converte para uma lista de strings
+        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+
+        // 5. Retorna o token para o cliente --> Devolvemos um RESPONSE DTO (O token vai para o campo 'token')
+        return ResponseEntity.ok(new LoginResponseDTO(token, userDetails.getUsername(), roles));
 
     }
 

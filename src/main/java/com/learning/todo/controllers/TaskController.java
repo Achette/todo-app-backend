@@ -39,7 +39,7 @@ public class TaskController {
     }
 
     // Apenas ROLE_USER pode criar tasks
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping
     public ResponseEntity<TaskDTO> insert(@Valid @RequestBody TaskDTO dto) {
         dto = service.insert(dto);
@@ -49,7 +49,7 @@ public class TaskController {
         return ResponseEntity.created(uri).body(dto);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     @PatchMapping(value = "/{id}")
     public ResponseEntity<TaskDTO> update(@PathVariable Long id, @Valid @RequestBody TaskDTO dto) {
         dto = service.update(id, dto);

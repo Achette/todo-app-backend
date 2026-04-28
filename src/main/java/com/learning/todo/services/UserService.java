@@ -1,6 +1,8 @@
 package com.learning.todo.services;
 
+import com.learning.todo.entities.Role;
 import com.learning.todo.entities.User;
+import com.learning.todo.repositories.RoleRepository;
 import com.learning.todo.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,9 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     // Ao criar o construtor, o Spring entende:
     // "Para criar o UserService, eu PRECISO buscar o encoder que está lá no SecurityConfig"
     public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
@@ -36,6 +41,14 @@ public class UserService implements UserDetailsService {
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));  // NUNCA salvar senha em texto puro!
         user.setCreated_at(Instant.now());
+
+        // Busca a role padrão no banco e associa ao usuário
+        Role defaultRole = roleRepository.findByAuthority("ROLE_USER");
+        if (defaultRole == null) {
+            throw new RuntimeException("Role ROLE_USER não encontrada no banco. Verifique o import.sql.");
+        }
+        user.getRoles().add(defaultRole);  // ← getRoles(), não getAuthorities()
+
         return userRepository.save(user);
     }
 

@@ -6,6 +6,7 @@ import com.learning.todo.entities.User;
 import com.learning.todo.repositories.TaskRepository;
 import com.learning.todo.repositories.UserRepository;
 import com.learning.todo.services.exceptions.DatabaseException;
+import com.learning.todo.services.exceptions.ForbiddenException;
 import com.learning.todo.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,20 +29,27 @@ public class TaskService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private AuthService authService;
+
     @Transactional(readOnly = true)
     public TaskDTO findById(Long id) {
         Optional<Task> result = repository.findById(id);
 
         Task task = result.orElseThrow(() -> new ResourceNotFoundException("Task não encontrada."));
 
-        TaskDTO dto = new TaskDTO(task);
+        User loggedUser = authService.authenticated();
+        if (!task.getUser().getId().equals(loggedUser.getId())) {
+            throw new ForbiddenException("Acesso negado"); // ou um ForbiddenException
+        }
 
-        return dto;
+        return new TaskDTO(task);
     }
 
     @Transactional(readOnly = true)
     public List<TaskDTO> findAll() {
-        List<Task> result = repository.findAll();
+        User loggedUser = authService.authenticated();
+        List<Task> result = repository.findByUserId(loggedUser.getId());
         return result.stream().map(task -> new TaskDTO((task))).toList();
     }
 
@@ -57,14 +65,10 @@ public class TaskService {
         entity.setDueDate(dto.getDueDate());
         entity.setPriority(dto.getPriority());
 
-        User user = new User();
-        user.setId(dto.getUserId());
+        User loggedUser = authService.authenticated(); // ← do token, não do DTO
+        entity.setUser(loggedUser);
 
-        entity.setUser(user);
-
-        entity = repository.save(entity);
-
-        return new TaskDTO(entity);
+        return new TaskDTO(repository.save(entity));
     }
 
     @Transactional
@@ -98,8 +102,7 @@ public class TaskService {
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
         entity.setCompleted(dto.getCompleted());
-        User user = userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new ResourceNotFoundException("Usuário com ID " + dto.getUserId() + " não encontrado"));
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new ResourceNotFoundException("Usuário com ID " + dto.getUserId() + " não encontrado"));
         entity.setUser(user);
     }
 

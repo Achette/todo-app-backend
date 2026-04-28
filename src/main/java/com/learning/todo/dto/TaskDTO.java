@@ -30,7 +30,6 @@ public class TaskDTO {
 
     private TaskEnum priority;
 
-    @NotNull
     private Long userId;
 
     public TaskDTO() {

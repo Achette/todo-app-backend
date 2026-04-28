@@ -29,7 +29,7 @@ public class AuthService {
     // Útil para: "só posso editar MINHAS tasks, não as de outros"
     public void validateSelf(Long userId) {
         User user = authenticated();
-        if (user.getId().equals(userId)) {
+        if (!user.getId().equals(userId)) {
             throw new RuntimeException("Acesso negado");
         }
     }
@@ -37,7 +37,7 @@ public class AuthService {
     // Valida se é o próprio ou um ADMIN (mesmo padrão do naconsulta)
     public void validateSelfOrAdmin(Long userId) {
         User user = authenticated();
-        if (user.getId().equals(userId) && !user.hasRole("ADMIN")) {
+        if (!user.getId().equals(userId) && !user.hasRole("ADMIN")) {
             throw new RuntimeException("Acesso negado");
         }
     }
