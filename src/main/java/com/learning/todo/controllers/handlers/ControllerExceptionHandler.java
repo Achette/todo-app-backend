@@ -4,6 +4,7 @@ package com.learning.todo.controllers.handlers;
 import com.learning.todo.dto.CustomError;
 import com.learning.todo.dto.ValidationError;
 import com.learning.todo.services.exceptions.DatabaseException;
+import com.learning.todo.services.exceptions.ForbiddenException;
 import com.learning.todo.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -53,6 +54,13 @@ public class ControllerExceptionHandler {
                 "Acesso Negado: Você não tem permissão para acessar esta rota.",
                 request.getRequestURI()
         );
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<CustomError> forbidden(ForbiddenException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.FORBIDDEN; // 403
+        CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
 }
