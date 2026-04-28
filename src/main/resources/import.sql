@@ -1,3 +1,6 @@
+INSERT INTO tb_role (authority) VALUES ('ROLE_USER');
+INSERT INTO tb_role (authority) VALUES ('ROLE_ADMIN');
+
 INSERT INTO tb_user (username, password, created_at) VALUES ('Maria Brown', '12340987', '2025-06-15');
 INSERT INTO tb_user (username, password, created_at) VALUES ('John Smith', 'senha4321', '2025-07-22');
 INSERT INTO tb_user (username, password, created_at) VALUES ('Ana Souza', 'aB@123c', '2025-08-01');
@@ -64,15 +67,15 @@ INSERT INTO tb_task (title, description, completed, created_at, due_date, update
 INSERT INTO tb_task (title, description, completed, created_at, due_date, updated_at, priority, user_id) VALUES ('Criar testes unitários', 'Escrever testes JUnit para o serviço de tarefas', false, '2024-11-18', '2024-11-25', '2024-11-18', 1, 5);
 INSERT INTO tb_task (title, description, completed, created_at, due_date, updated_at, priority, user_id) VALUES ('Atualizar documentação', 'Revisar README e documentar endpoints da API', false, '2024-11-10', '2024-11-17', '2024-11-10', 2, 5);
 INSERT INTO tb_task (title, description, completed, created_at, due_date, updated_at, priority, user_id) VALUES ('Configurar CI/CD', 'Adicionar pipeline no GitHub Actions para build e testes', true, '2024-11-05', '2024-11-12', '2024-11-05', 0, 5);
-INSERT INTO tb_task (title, description, completed, created_at, due_date, updated_at, priority, user_id) VALUES ('Refatorar service de usuário', 'Melhorar nomenclatura e remover duplicações', false, '2024-11-12', '2024-11-19', '2024-11-12', 1, 5);
+INSERT INTO tb_task (title, description, completed, created_at, due_date, updated_at, priority, user_id) VALUES ('Refatorar service de usuário', 'Melhorar nomenclatura e remover duplicações', false, '2024-11-12', '2024-11-19', '2024-11-12', 1, 62);
 INSERT INTO tb_task (title, description, completed, created_at, due_date, updated_at, priority, user_id) VALUES ('Criar página de tarefas', 'Desenvolver telas em React para listar e editar tarefas', true, '2024-11-01', '2024-11-08', '2024-11-01', 2, 5);
 INSERT INTO tb_task (title, description, completed, created_at, due_date, updated_at, priority, user_id) VALUES ('Implementar validações', 'Adicionar validações de formulário no backend', false, '2024-11-14', '2024-11-21', '2024-11-14', 0, 5);
-INSERT INTO tb_task (title, description, completed, created_at, due_date, updated_at, priority, user_id) VALUES ('Configurar Docker', 'Criar Dockerfile e docker-compose para ambiente dev', false, '2024-11-03', '2024-11-10', '2024-11-03', 1, 5);
-INSERT INTO tb_task (title, description, completed, created_at, due_date, updated_at, priority, user_id) VALUES ('Otimizar consultas SQL', 'Adicionar índices e revisar queries lentas', true, '2024-11-07', '2024-11-14', '2024-11-07', 0, 5);
+INSERT INTO tb_task (title, description, completed, created_at, due_date, updated_at, priority, user_id) VALUES ('Configurar Docker', 'Criar Dockerfile e docker-compose para ambiente dev', false, '2024-11-03', '2024-11-10', '2024-11-03', 1, 62);
+INSERT INTO tb_task (title, description, completed, created_at, due_date, updated_at, priority, user_id) VALUES ('Otimizar consultas SQL', 'Adicionar índices e revisar queries lentas', true, '2024-11-07', '2024-11-14', '2024-11-07', 0, 63);
 INSERT INTO tb_task (title, description, completed, created_at, due_date, updated_at, priority, user_id) VALUES ('Criar endpoints de relatório', 'Gerar relatório de tarefas concluídas no mês', false, '2024-11-15', '2024-11-22', '2024-11-15', 2, 5);
 INSERT INTO tb_task (title, description, completed, created_at, due_date, updated_at, priority, user_id) VALUES ('Refatorar componentes antigos', 'Atualizar componentes React para usar hooks modernos', true, '2024-10-03', '2024-10-10', '2024-10-03', 1, 5);
-INSERT INTO tb_task (title, description, completed, created_at, due_date, updated_at, priority, user_id) VALUES ('Configurar integração contínua', 'Criar pipeline no GitHub Actions para testes e deploy', false, '2024-12-01', '2024-12-08', '2024-12-01', 0, 5);
+INSERT INTO tb_task (title, description, completed, created_at, due_date, updated_at, priority, user_id) VALUES ('Configurar integração contínua', 'Criar pipeline no GitHub Actions para testes e deploy', false, '2024-12-01', '2024-12-08', '2024-12-01', 0, 63);
 INSERT INTO tb_task (title, description, completed, created_at, due_date, updated_at, priority, user_id) VALUES ('Atualizar documentação técnica', 'Revisar README e adicionar instruções de setup', true, '2024-09-22', '2024-09-29', '2024-09-22', 2, 5);
 INSERT INTO tb_task (title, description, completed, created_at, due_date, updated_at, priority, user_id) VALUES ('Implementar autenticação JWT', 'Adicionar fluxo de login e refresh token', false, '2024-11-08', '2024-11-15', '2024-11-08', 0, 5);
-INSERT INTO tb_task (title, description, completed, created_at, due_date, updated_at, priority, user_id) VALUES ('Criar testes de integração', 'Escrever testes para rotas principais da API', false, '2024-08-19', '2024-08-26', '2024-08-19', 1, 5);
+INSERT INTO tb_task (title, description, completed, created_at, due_date, updated_at, priority, user_id) VALUES ('Criar testes de integração', 'Escrever testes para rotas principais da API', false, '2024-08-19', '2024-08-26', '2024-08-19', 1, 62);
 
