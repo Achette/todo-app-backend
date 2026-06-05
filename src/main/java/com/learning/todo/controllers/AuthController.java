@@ -3,6 +3,7 @@ package com.learning.todo.controllers;
 import com.learning.todo.config.JwtUtil;
 import com.learning.todo.dto.LoginRequestDTO;
 import com.learning.todo.dto.LoginResponseDTO;
+import com.learning.todo.entities.User;
 import com.learning.todo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -54,8 +57,11 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody LoginRequestDTO dto) {
-        userService.register(dto.username(), dto.password());
-        return ResponseEntity.ok("Usuário criado com sucesso!");
+    public ResponseEntity<LoginRequestDTO> register(@RequestBody LoginRequestDTO dto) {
+        User newDto = userService.register(dto.username(), dto.password(), dto.name());
+        LoginRequestDTO newUser = new LoginRequestDTO(dto.name(), dto.username(), dto.password());
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newDto.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(newUser);
     }
 }

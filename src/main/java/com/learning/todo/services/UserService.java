@@ -36,9 +36,10 @@ public class UserService implements UserDetailsService {
 
     // ─── Registrar novo usuário ──────────────────────────────
     @Transactional
-    public User register(String username, String password) {
+    public User register(String username, String password, String name) {
         User user = new User();
         user.setUsername(username);
+        user.setName(name);
         user.setPassword(passwordEncoder.encode(password));  // NUNCA salvar senha em texto puro!
         user.setCreated_at(Instant.now());
 

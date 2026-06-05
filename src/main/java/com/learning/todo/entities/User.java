@@ -14,6 +14,8 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+
     @Column(unique = true, nullable = false)
     private String username;
 
@@ -37,8 +39,9 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id, String username, String password, Instant created_at, List<Task> tasks) {
+    public User(Long id,String name, String username, String password, Instant created_at, List<Task> tasks) {
         this.id = id;
+        this.name = name;
         this.username = username;
         this.password = password;
         this.created_at = created_at;
@@ -70,6 +73,14 @@ public class User implements UserDetails {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
