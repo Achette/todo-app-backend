@@ -45,6 +45,12 @@ public class AuthController {
         // 2. Pega o UserDetails do resultado da autenticação
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
+        // Tenta fazer o cast para User, garantindo que o nome é extraído.
+        // Se não for uma instância de User, name receberá um valor padrão ('').
+        final String name = (userDetails instanceof com.learning.todo.entities.User user) ?
+                user.getName() :
+                "";
+
         // 3. Gera o token JWT
         String token = jwtUtil.generateToken(userDetails);
 
@@ -52,7 +58,7 @@ public class AuthController {
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
         // 5. Retorna o token para o cliente --> Devolvemos um RESPONSE DTO (O token vai para o campo 'token')
-        return ResponseEntity.ok(new LoginResponseDTO(token, userDetails.getUsername(), roles));
+        return ResponseEntity.ok(new LoginResponseDTO(token, userDetails.getUsername(), roles, name));
 
     }
 
