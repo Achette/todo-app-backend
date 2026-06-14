@@ -44,6 +44,7 @@ public class SecurityConfig {
     @Bean   // ─── 1. O BEAN MAIS IMPORTANTE: define as regras de acesso ──
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 // Desabilita CSRF (não precisamos para API REST com JWT)
                 .csrf(csrf -> csrf.disable())
 
@@ -73,7 +74,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:5173"));
+        config.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "http://localhost:5173",
+                "https://todo-app-backend-production-db98.up.railway.app"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         config.setAllowCredentials(true);
